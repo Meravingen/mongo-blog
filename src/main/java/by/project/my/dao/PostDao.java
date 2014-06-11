@@ -12,9 +12,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.BasicDBObject;
-
+import by.project.my.model.Comment;
 import by.project.my.model.Post;
+
+import com.mongodb.BasicDBObject;
 
 @Repository
 public class PostDao {
@@ -35,7 +36,7 @@ public class PostDao {
 		return mongoOperations.find(query, Post.class);
 	}
 
-	public List<Post> findByTagDateDescending(final String tag) {
+	public List<Post> findByTagDateDescending(String tag) {
 		return mongoOperations.find(Query.query(Criteria.where("tag").is(tag))
 				.with(sortByDateDesc()).limit(10), Post.class);
 	}
@@ -57,7 +58,7 @@ public class PostDao {
 		post.setBody(body);
 		post.setPermalink(permalink);
 		post.setTags(tags);
-		post.setComments(new ArrayList<String>());
+		post.setComments(new ArrayList<Comment>());
 		post.setDate(new Date());
 		try {
 			mongoOperations.insert(post);
@@ -68,9 +69,8 @@ public class PostDao {
 		return permalink;
 	}
 
-	// not yet implemented
-	public void addPostComment(final String name, final String email,
-			final String body, final String permalink) {
+	public void addPostComment(Post post, Comment comment) {
+		post.getComments().add(comment);
+		mongoOperations.save(post);
 	}
-
 }

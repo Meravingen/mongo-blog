@@ -18,7 +18,7 @@ public class Post implements Serializable {
 	private String body;
 	private String permalink;
 	private List<String> tags;
-	private List<String> comments;
+	private List<Comment> comments;
 	private Date date;
 
 	public String getId() {
@@ -69,11 +69,11 @@ public class Post implements Serializable {
 		this.tags = tags;
 	}
 
-	public List<String> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<String> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 

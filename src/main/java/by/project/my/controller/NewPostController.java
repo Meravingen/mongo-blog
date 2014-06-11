@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import by.project.my.model.NewPost;
+import by.project.my.model.User;
 import by.project.my.service.PostService;
 import by.project.my.validator.NewpostValidator;
 
@@ -37,8 +38,8 @@ public class NewPostController {
 	@ModelAttribute
 	@RequestMapping(method = RequestMethod.GET)
 	public String newpost(HttpSession session, Model model) {
-		String username = (String) session.getAttribute(USER_ATTRIBUTE);
-		if (username == null) {
+		User user = (User) session.getAttribute(USER_ATTRIBUTE);
+		if (user == null) {
 			return "login";
 		} else {
 			NewPost newPost = new NewPost();
@@ -50,16 +51,16 @@ public class NewPostController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String handleNewpost(@Validated @ModelAttribute NewPost newPost,
 			BindingResult result, HttpSession session) {
-		String username = (String) session.getAttribute(USER_ATTRIBUTE);
+		User user = (User) session.getAttribute(USER_ATTRIBUTE);
 		if (result.hasErrors()) {
 			return "newpost";
 		}
-		if (username == null) {
+		if (user == null) {
 			return "login";
 		} else {
 			List<String> tagsAsList = extractTags(newPost.getTags());
 			String permalink = postService.addPost(newPost.getTitle(),
-					newPost.getBody(), tagsAsList, username);
+					newPost.getBody(), tagsAsList, user.getUsername());
 			return "redirect:/post/" + permalink;
 		}
 	}

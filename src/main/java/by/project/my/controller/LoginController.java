@@ -30,7 +30,7 @@ public class LoginController {
 			@RequestParam String password, HttpSession session)
 			throws AuthenticationException {
 		User user = this.userService.login(username, password);
-		session.setAttribute(USER_ATTRIBUTE, user.getUsername());
+		session.setAttribute(USER_ATTRIBUTE, user);
 		return "redirect:/welcome/" + user.getUsername();
 	}
 

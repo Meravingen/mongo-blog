@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import by.project.my.dao.PostDao;
+import by.project.my.model.Comment;
 import by.project.my.model.Post;
 
 @Service
@@ -29,6 +30,10 @@ public class PostService {
 	public String addPost(String title, String body, List<String> tags,
 			String username) {
 		return postDao.addPost(title, body, tags, username);
+	}
+
+	public void addPostComment(Post post, Comment comment) {
+		postDao.addPostComment(post, comment);
 	}
 
 }

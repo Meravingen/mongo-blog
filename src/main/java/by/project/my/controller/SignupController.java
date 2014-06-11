@@ -46,7 +46,7 @@ public class SignupController {
 			return "signup";
 		}
 		if (this.userService.addUser(user)) {
-			session.setAttribute(USER_ATTRIBUTE, user.getUsername());
+			session.setAttribute(USER_ATTRIBUTE, user);
 			return "redirect:/welcome/" + user.getUsername();
 		} else {
 			model.addAttribute(EXCEPTION_ATTRIBUTE,
